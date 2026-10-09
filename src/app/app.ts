@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { HeaderComponent } from './components/header/header';
+import { HeroComponent } from './components/hero/hero';
+import { ProgramsComponent } from './components/programs/programs';
+import { ExperienceComponent } from './components/experience/experience';
+import { NewsComponent } from './components/news/news';
+import { FooterComponent } from './components/footer/footer';
 
-@Component({
-  imports: [RouterOutlet],
-  selector: 'app-root',
-  styleUrl: './app.css',
-  templateUrl: './app.html',
-})
-export class App {
-  protected readonly title = signal('examen-parcial');
-}
+@Component({ selector: 'app-root', imports: [HeaderComponent, HeroComponent, ProgramsComponent, ExperienceComponent, NewsComponent, FooterComponent], templateUrl: './app.html', styleUrl: './app.css' })
+export class App {}

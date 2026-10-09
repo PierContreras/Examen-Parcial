@@ -8,11 +8,12 @@
 .navbar-brand { color: #17131b; font-size: .96rem; font-weight: 500; letter-spacing: -.04em; }
 .brand-wordmark { line-height: 1.05; }
 .brand-wordmark strong { font-weight: 800; }
-.brand-lockup { display: flex; flex-direction: column; gap: 3px; }
-.brand-lockup small { color: var(--uc-purple); font-size: .48rem; font-weight: 800; letter-spacing: .075em; }
-.brand-mark { width: 43px; height: 34px; flex: none; fill: none; stroke: var(--uc-purple); stroke-width: 3.4; stroke-linecap: square; stroke-linejoin: round; }
+.brand-lockup { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 0; margin: 0; }
+.brand-lockup img { display: block; width: 190px; max-width: 43vw; height: auto; }
+.brand-lockup small { color: var(--uc-purple); font-size: .47rem; font-weight: 800; letter-spacing: .075em; margin-left: 54px; }
 .nav-link { color: #394a58; font-size: .91rem; font-weight: 600; }
 .nav-link:hover { color: var(--uc-purple); }
 .btn-admission { background: var(--uc-purple); color: #fff; border-radius: 7px; font-weight: 700; font-size: .9rem; }
 .btn-admission:hover { background: var(--uc-purple-dark); color: #fff; transform: translateY(-1px); }
 @media (max-width: 991.98px) { .navbar-collapse { border-top: 1px solid #eef1f3; } }
+@media (max-width: 575.98px) { .brand-lockup img { width: 160px; }.brand-lockup small { margin-left: 45px; } }

@@ -2,29 +2,45 @@
   <div class="container">
     <div class="section-heading d-flex flex-column flex-lg-row align-items-lg-end justify-content-between gap-3">
       <div><span class="section-kicker">OFERTA ACADÉMICA</span><h2 id="programs-title">Encuentra tu <span>camino.</span></h2></div>
-      <p class="section-intro">33 carreras en seis facultades. Conoce aquí sus áreas y algunas opciones profesionales.</p>
+      <p class="section-intro">Explora las 33 carreras agrupadas por facultad. Despliega cada área o busca una carrera por nombre.</p>
     </div>
-    <div class="row g-3 g-lg-4 mt-3">
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-cpu"></i></span><span class="program-count">FACULTAD</span><h3>Ingeniería</h3><p>Diseña soluciones para los retos de tecnología, industria, energía y ciudad.</p><p class="career-examples"><strong>Carreras:</strong> Arquitectura, Ingeniería Civil, Ambiental, Industrial y de Sistemas e Informática.</p></article></div>
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-briefcase"></i></span><span class="program-count">FACULTAD</span><h3>Ciencias de la Empresa</h3><p>Aprende a crear proyectos y gestionar organizaciones en un mundo cambiante.</p><p class="career-examples"><strong>Carreras:</strong> Administración, Marketing, Negocios Digitales, Contabilidad y Finanzas, y Economía.</p></article></div>
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-heart-pulse"></i></span><span class="program-count">FACULTAD</span><h3>Ciencias de la Salud</h3><p>Prepárate para cuidar la salud y mejorar la calidad de vida de las personas.</p><p class="career-examples"><strong>Carreras:</strong> Medicina Humana, Enfermería, Odontología, Farmacia y Bioquímica, y Nutrición.</p></article></div>
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-people"></i></span><span class="program-count">FACULTAD</span><h3>Ciencias Sociales</h3><p>Contribuye al aprendizaje, la comunicación y el desarrollo de la sociedad.</p><p class="career-examples"><strong>Carreras:</strong> Ciencias de la Comunicación y Educación con especialidad en innovación y aprendizaje digital.</p></article></div>
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-bank"></i></span><span class="program-count">FACULTAD</span><h3>Derecho</h3><p>Desarrolla pensamiento crítico y herramientas para comprender y aplicar el derecho.</p><p class="career-examples"><strong>Carrera:</strong> Derecho.</p></article></div>
-      <div class="col-md-6 col-lg-4"><article class="program-card"><span class="program-icon"><i class="bi bi-chat-square-heart"></i></span><span class="program-count">FACULTAD</span><h3>Psicología</h3><p>Comprende a las personas y acompaña su bienestar en distintos entornos.</p><p class="career-examples"><strong>Carrera:</strong> Psicología, con opciones de formación presencial, semipresencial y a distancia.</p></article></div>
+    <div class="career-explorer-bar">
+      <div class="career-total"><span class="career-total-number">33</span><span>carreras<br>profesionales</span></div>
+      <label class="career-search"><i class="bi bi-search" aria-hidden="true"></i><span class="visually-hidden">Buscar una carrera</span><input type="search" placeholder="Busca una carrera, por ejemplo: Psicología" [value]="searchTerm" (input)="setSearchTerm($event)" aria-controls="faculty-list"></label>
+    </div>
+    <div class="row g-3 faculty-list" id="faculty-list" aria-live="polite">
+      @for (faculty of visibleFaculties; track faculty.id) {
+        <div class="col-md-6"><article class="faculty-card" [class.faculty-card-open]="searchTerm.length > 0 || openFacultyId === faculty.id">
+          <button class="faculty-toggle" type="button" [attr.aria-expanded]="searchTerm.length > 0 || openFacultyId === faculty.id" [attr.aria-controls]="'faculty-panel-' + faculty.id" (click)="toggleFaculty(faculty.id)">
+            <span class="program-icon"><i class="bi {{ faculty.icon }}"></i></span><span class="faculty-summary"><span class="faculty-label">FACULTAD</span><span class="faculty-name">{{ faculty.name }}</span><span class="faculty-count">{{ faculty.careers.length }} {{ faculty.careers.length === 1 ? 'carrera' : 'carreras' }}</span></span><span class="faculty-chevron"><i class="bi bi-chevron-down"></i></span>
+          </button>
+          @if (searchTerm.length > 0 || openFacultyId === faculty.id) {
+            <div class="faculty-panel" [id]="'faculty-panel-' + faculty.id"><p>{{ faculty.summary }}</p><ul class="career-list">@for (career of faculty.careers; track career) { <li><i class="bi bi-arrow-up-right"></i>{{ career }}</li> }</ul></div>
+          }
+        </article></div>
+      } @empty {
+        <div class="col-12"><p class="career-empty"><i class="bi bi-search me-2"></i>No encontramos esa carrera. Prueba con otro nombre.</p></div>
+      }
     </div>
 
-    <div class="career-guide mt-5" aria-labelledby="career-guide-title">
-      <div class="career-guide-copy"><span class="section-kicker">VALOR AGREGADO</span><h3 id="career-guide-title">Una pista para elegir tu carrera.</h3><p>Cuéntanos qué te interesa y descubre un área que podrías explorar. Es una orientación inicial, no reemplaza la malla ni la asesoría vocacional.</p></div>
-      <div class="career-guide-tools">
-        <label for="interest-picker" class="form-label">¿Qué te gustaría hacer?</label>
-        <select id="interest-picker" class="form-select" [value]="selectedInterest" (change)="selectInterest($event)">
-          <option value="crear">Diseñar, construir o programar</option>
-          <option value="gestionar">Emprender o gestionar proyectos</option>
-          <option value="cuidar">Cuidar la salud y el bienestar</option>
-          <option value="sociedad">Comprender y transformar la sociedad</option>
-        </select>
-        <div class="career-match" aria-live="polite"><span>ÁREA SUGERIDA</span><strong>{{ interestMatches[selectedInterest].area }}</strong><p>{{ interestMatches[selectedInterest].careers }}</p></div>
+    <section class="career-guide mt-5" aria-labelledby="career-guide-title">
+      <div class="career-guide-heading"><span class="guide-index"><i class="bi bi-compass"></i> EXPLORADOR VOCACIONAL · 1 MIN</span><span class="section-kicker">VALOR AGREGADO</span><h3 id="career-guide-title">¿Qué te gustaría cambiar?</h3><p>Elige el tipo de reto que te emociona. Te mostraremos una ruta posible dentro de la Continental.</p></div>
+      <div class="career-guide-content">
+        <div class="interest-options" role="group" aria-label="Elige el área que más te interesa">
+          @for (path of interestPaths; track path.id) {
+            <button class="interest-option" [class.interest-option-active]="selectedInterestId === path.id" [attr.aria-pressed]="selectedInterestId === path.id" type="button" (click)="chooseInterest(path.id)">
+              <i class="bi {{ path.icon }}"></i><span>{{ path.label }}</span><i class="bi bi-arrow-up-right interest-arrow"></i>
+            </button>
+          }
+        </div>
+        <article class="career-match" aria-live="polite" aria-atomic="true">
+          <div class="match-topline"><span>UNA RUTA PARA EXPLORAR</span><span class="match-sparkle"><i class="bi bi-stars"></i> IDEA INICIAL</span></div>
+          <div class="match-main"><div class="match-icon"><i class="bi {{ selectedPath.icon }}"></i></div><div><h4>{{ selectedPath.faculty }}</h4><p>{{ selectedPath.message }}</p></div></div>
+          <div class="match-careers"><span>Podrías empezar por</span><strong>{{ selectedPath.careers }}</strong></div>
+          <a href="#admision" class="match-cta" (click)="continueToAdmission()">Llevar mi interés al formulario <i class="bi bi-arrow-right"></i></a>
+        </article>
       </div>
-    </div>
+      <p class="guide-footnote"><i class="bi bi-info-circle"></i> Esta guía es una primera inspiración. Explora los planes de estudio y conversa con un orientador antes de elegir.</p>
+    </section>
   </div>
 </section>
